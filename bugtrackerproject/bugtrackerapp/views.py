@@ -2,15 +2,29 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from .models import Bug
-from .forms import BugForm
+from .forms import BugForm, SortForm
 
 # Create your views here.
 def index(request):
-    bug_list = Bug.objects.order_by("-date")
+
+    if request.method == "POST":
+        form = SortForm(request.POST)
+
+        if form.is_valid():
+            sort_by = form.cleaned_data.get("CHOICES")
+
+    else:
+        sort_by = "date"
+
+    print("Sorting by " + sort_by)
+
+    bug_list = Bug.objects.order_by("-" + str(sort_by))
+    sort_form = SortForm()
 
     page = {
         "list" : bug_list,
         "title" : "Bug Tracker",
+        "form" : sort_form,
     }
 
     return render(request, 'bugtracker/index.html', page)

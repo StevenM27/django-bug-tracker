@@ -53,6 +53,15 @@
                 <h1 class="text-center">Bug List</h1>
             </div>
 
+            <div style="margin-bottom: 10px;">
+                <h2>Sort By:</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{form.CHOICES}}
+                    <input type="submit" class="btn btn-dark" value="submit" style="margin-top: 10px;">
+                </form>
+            </div>
+
             <div class="row">
                 
                 <div class="col-md-12">
